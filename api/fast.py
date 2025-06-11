@@ -17,6 +17,10 @@ app.add_middleware(
 def predict(compound):
     """
     Make a single compound prediction
+    - Take input from interface
+    - Process
+    - Call model
+    - Predict toxicity
     """
     pass
 
