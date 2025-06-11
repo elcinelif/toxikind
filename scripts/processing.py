@@ -1,3 +1,19 @@
+"""
+TODO:
+rename file to "processing.py"
+
+split train from transform
+
+train_scaler
+    save trained scaler
+    train transformer on train data only
+    save transformer
+
+transformer in seperate function on test data and user data
+
+Index rename: ID
+"""
+
 # OS I/O
 import os
 
@@ -30,13 +46,13 @@ def scale_features(X: pd.DataFrame) -> pd.DataFrame:
 
 if __name__ == '__main__':
     # Load/Scale/Save training features
-    path_features_train = "../raw_data/tox21_dense_train.csv.gz"
+    path_features_train = "raw_data/tox21_dense_train.csv.gz"
     X_train_raw = pd.read_csv(path_features_train).set_index("Unnamed: 0")
     X_train = scale_features(X_train_raw)
-    X_train.to_csv("../data/X_train.csv")
+    X_train.to_csv("data/X_train.csv")
 
     # Load/Scale/Save testing features
-    path_features_test = "../raw_data/tox21_dense_test.csv.gz"
+    path_features_test = "raw_data/tox21_dense_test.csv.gz"
     X_test_raw = pd.read_csv(path_features_test).set_index("Unnamed: 0")
     X_test = scale_features(X_test_raw)
-    X_test.to_csv("../data/X_test.csv")
+    X_test.to_csv("data/X_test.csv")
