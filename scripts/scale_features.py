@@ -1,3 +1,19 @@
+"""
+TODO:
+rename file to "processing.py"
+
+split train from transform
+
+train_scaler
+    save trained scaler
+    train transformer on train data only
+    save transformer
+
+transformer in seperate function on test data and user data
+
+Index rename: ID
+"""
+
 # OS I/O
 import os
 
