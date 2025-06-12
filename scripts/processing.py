@@ -1,35 +1,16 @@
-"""
-TODO:
-rename file to "processing.py"
-
-split train from transform
-
-train_scaler
-    save trained scaler
-    train transformer on train data only
-    save transformer
-
-transformer in seperate function on test data and user data
-
-Index rename: ID
-"""
-
-# OS I/O
-import os
-
 # Data handling
 import pandas as pd
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.compose import ColumnTransformer
 
-def scale_features(X: pd.DataFrame) -> pd.DataFrame:
+def fit_feature_scaler(X_train_raw: pd.DataFrame) -> Pipeline:
     """
-    This function scales feature tables with a MinMaxScaler trained on the input data
+    This function fits a MinMaxScaler with raw feature training data
     """
     # ColumnTransformer with MinMaxScaler
     column_transformer = ColumnTransformer([
-        ("minmax_scaler", MinMaxScaler(), X.columns)
+        ("minmax_scaler", MinMaxScaler(), X_train_raw.columns)
         ])
 
     # Pipeline
@@ -37,22 +18,22 @@ def scale_features(X: pd.DataFrame) -> pd.DataFrame:
         ("column_transformer", column_transformer)
         ])
 
-    # Transform data while preserving column names and index
-    X = pd.DataFrame(pipeline.fit_transform(X), columns=X.columns, index=X.index)
+    # Fit feature_scaler with raw feature training data
+    print("Fitting scaler...")
+    feature_scaler = pipeline.fit(X_train_raw)
 
-    print("✅ features processed.")
+    # Return fitted feature_scaler
+    print("✅ Scaler fitted")
+    return feature_scaler
 
+def transform_features(X_raw: pd.DataFrame, feature_scaler: Pipeline) -> pd.DataFrame:
+    """
+    This function transforms features using a scaler fitted on raw feature training data
+    """
+    # Transform features
+    print("Transforming features...")
+    X = pd.DataFrame(feature_scaler.transform(X_raw), columns=X_raw.columns, index=X_raw.index)
+
+    # Return transformed data
+    print("✅ Features transformed")
     return X
-
-if __name__ == '__main__':
-    # Load/Scale/Save training features
-    path_features_train = "raw_data/tox21_dense_train.csv.gz"
-    X_train_raw = pd.read_csv(path_features_train).set_index("Unnamed: 0")
-    X_train = scale_features(X_train_raw)
-    X_train.to_csv("data/X_train.csv")
-
-    # Load/Scale/Save testing features
-    path_features_test = "raw_data/tox21_dense_test.csv.gz"
-    X_test_raw = pd.read_csv(path_features_test).set_index("Unnamed: 0")
-    X_test = scale_features(X_test_raw)
-    X_test.to_csv("data/X_test.csv")
