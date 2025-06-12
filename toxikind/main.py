@@ -44,29 +44,35 @@ def load_transform_save_features(path_feature_scaler, path_x_raw, path_x) -> Non
     calls "processing.transform_features" and
     saves the transformed data as .csv.
 
-    It assumes the raw data index column being unnamed.
+    It assumes the raw data index column being unnamed and
+    renames it to "ID".
     """
     # Load feature_scaler
     path_feature_scaler = f"{path_feature_scaler}/feature_scaler.pickle"
     with open(path_feature_scaler, "rb") as file:
         feature_scaler = pickle.load(file)
 
-    # Load data
-    X_raw = pd.read_csv(path_x_raw).set_index("Unnamed: 0")
+    # Load data, rename index column, and set index
+    X_raw = pd.read_csv(path_x_raw)
+    X_raw = X_raw.rename(columns={"Unnamed: 0": "ID"}).set_index("ID")
 
     # Transform data
     X = transform_features(X_raw, feature_scaler)
 
-    # Save data
-    X.to_csv(path_x)
+    # Reset index and save data
+    X = X.reset_index()
+    X.to_csv(path_x, index=False)
 
 def load_save_targets(path_y_raw, path_y) -> None:
     """
     This function loads raw target data from given path, renames
     and saves it to given path.
+
+    It assumes the raw data index column being unnamed and
+    renames it to "ID".
     """
-    y_train = pd.read_csv(path_y_raw).set_index("Unnamed: 0")
-    y_train.to_csv(path_y)
+    y_train = pd.read_csv(path_y_raw).rename(columns={"Unnamed: 0": "ID"})
+    y_train.to_csv(path_y, index=False)
     return None
 
 def retrain_production_model() -> None:
