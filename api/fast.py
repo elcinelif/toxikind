@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from toxikind.main import *
 
 app = FastAPI()
 #app.state.model = load_model()
