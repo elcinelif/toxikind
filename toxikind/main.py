@@ -15,7 +15,9 @@ import pandas as pd
 # Internal modules
 from processing import fit_feature_scaler, transform_features
 
-def fit_save_feature_scaler(path_X_train_raw, path_feature_scaler) -> None:
+def fit_save_feature_scaler(path_X_train_raw: str,
+                            path_feature_scaler: str
+                           ) -> None:
     """
     This is a wrapper for "processing.fit_feature_scaler".
     It loads raw feature training data from given path,
@@ -37,7 +39,10 @@ def fit_save_feature_scaler(path_X_train_raw, path_feature_scaler) -> None:
 
     return None
 
-def load_transform_save_features(path_feature_scaler, path_x_raw, path_x) -> None:
+def load_transform_save_features(path_feature_scaler: str,
+                                 path_x_raw: str,
+                                 path_x: str
+                                ) -> None:
     """
     This is a wrapper for "processing.transform_features".
     It loads a fitted scaler from given path, raw feature data,
@@ -63,7 +68,9 @@ def load_transform_save_features(path_feature_scaler, path_x_raw, path_x) -> Non
     X = X.reset_index()
     X.to_csv(path_x, index=False)
 
-def load_save_targets(path_y_raw, path_y) -> None:
+def load_save_targets(path_y_raw: str,
+                      path_y: str
+                     ) -> None:
     """
     This function loads raw target data from given path, renames
     and saves it to given path.
