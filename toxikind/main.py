@@ -13,7 +13,7 @@ import pickle
 import pandas as pd
 
 # Internal modules
-from processing import fit_feature_scaler, transform_features
+from toxikind.processing import fit_feature_scaler, transform_features
 
 def fit_save_feature_scaler(path_X_train_raw: str,
                             path_feature_scaler: str
@@ -22,7 +22,7 @@ def fit_save_feature_scaler(path_X_train_raw: str,
     This is a wrapper for "processing.fit_feature_scaler".
     It loads raw feature training data from given path,
     calls "processing.train_feature_scaler" and
-    saves the trained scaler as .pickle.
+    saves the trained scaler as .pkl.
 
     It assumes the raw data index column being unnamed.
     """
@@ -33,7 +33,7 @@ def fit_save_feature_scaler(path_X_train_raw: str,
     feature_scaler = fit_feature_scaler(X_train_raw)
 
     # Save fitted scaler
-    path_feature_scaler = f"{path_feature_scaler}/feature_scaler.pickle"
+    path_feature_scaler = f"{path_feature_scaler}/feature_scaler.pkl"
     with open(path_feature_scaler, "wb") as file:
         pickle.dump(feature_scaler, file)
 
@@ -53,7 +53,7 @@ def load_transform_save_features(path_feature_scaler: str,
     renames it to "ID".
     """
     # Load feature_scaler
-    path_feature_scaler = f"{path_feature_scaler}/feature_scaler.pickle"
+    path_feature_scaler = f"{path_feature_scaler}/feature_scaler.pkl"
     with open(path_feature_scaler, "rb") as file:
         feature_scaler = pickle.load(file)
 
