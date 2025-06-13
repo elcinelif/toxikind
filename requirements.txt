@@ -1,47 +1,14 @@
 # Core packages
-numpy==1.23.5
-pandas==1.5.3
-scipy==1.10.0
-scikit-learn==1.3.1
-matplotlib
-seaborn
-pytz
-h5py==3.10.0
 
-# Google Cloud
-google-cloud-bigquery
-google-cloud-storage==2.14.0
-google-api-core==2.8.2
-googleapis-common-protos==1.56.4
-protobuf==3.19.6
-db-dtypes
-pyarrow
+pandas==2.2.3
+scikit-learn==1.6.1
+matplotlib==3.10.0
+numpy==1.26.4
+
+
+
 
 # TensorFlow (platform-specific versions)
-tensorflow-macos==2.10.0; sys_platform == 'darwin' and 'ARM' in platform_version
-tensorflow==2.10.0; sys_platform == 'darwin' and 'ARM' not in platform_version
-tensorflow==2.10.0; sys_platform != 'darwin'
-
-# Experiment tracking and workflows
-mlflow==2.1.1
-prefect==2.19.2
-
-# Development & testing
-ipdb
-ipykernel
-yapf
-colorama
-pytest
-pytest-asyncio
-httpx<0.28
-nbresult
-wheel
-
-# Misc
-pygeohash
-python-dotenv
-psycopg2-binary
-
-# API-related
-fastapi==0.108.0
-uvicorn
+tensorflow-macos; sys_platform == 'darwin' and 'ARM' in platform_version
+tensorflow; sys_platform == 'darwin' and 'ARM' not in platform_version
+tensorflow; sys_platform != 'darwin'
