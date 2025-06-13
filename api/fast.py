@@ -21,11 +21,12 @@ def predict(target='Please choose test: SR.MMP or SR.ARE', compound='Please type
     if compound == 'Please type in a compound!':
         return compound
 
-    X_test = pd.read_csv('../data/X_test.csv',index_col='ID')
+    X_test = pd.read_csv('data/X_test.csv',index_col='ID')
     X_predict = X_test[X_test.index==compound]
 
     if X_predict.shape[0] == 0:
         return 'Compound not found in Dataset'
+
 
     if target == 'SR.MMP':
         with open('../production_model/fitted_xgb_mmp.pkl','rb') as f:
@@ -48,7 +49,6 @@ def predict(target='Please choose test: SR.MMP or SR.ARE', compound='Please type
 @app.get("/")
 def root():
     return {"Purpose": "This is a toxicity predictor"}
-
 
 if __name__ == '__main__':
     try:

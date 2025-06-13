@@ -1,14 +1,5 @@
-# Core packages
-
-pandas==2.2.3
-scikit-learn==1.6.1
-matplotlib==3.10.0
 numpy==1.26.4
-
-
-
-
-# TensorFlow (platform-specific versions)
-tensorflow-macos; sys_platform == 'darwin' and 'ARM' in platform_version
-tensorflow; sys_platform == 'darwin' and 'ARM' not in platform_version
-tensorflow; sys_platform != 'darwin'
+pandas==2.2.3
+scikit-learn==1.7.0
+tensorflow
+matplotlib==3.10.0
