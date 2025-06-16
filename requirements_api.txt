@@ -1,6 +1,6 @@
 numpy==1.26.4
 pandas==2.2.3
-scikit-learn==1.7.0
+scikit-learn==1.6.1
 tensorflow==2.16.2
 fastapi==0.115.12
 uvicorn==0.34.3
