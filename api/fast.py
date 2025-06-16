@@ -17,7 +17,7 @@ app.add_middleware(
 
 @app.get("/predict")
 def predict(target='Please choose test: SR.MMP or SR.ARE', compound='Please type in a compound!'):
-
+    # Check if compound in test data
     if compound == 'Please type in a compound!':
         return compound
 
@@ -27,16 +27,17 @@ def predict(target='Please choose test: SR.MMP or SR.ARE', compound='Please type
     if X_predict.shape[0] == 0:
         return 'Compound not found in Dataset'
 
-
+    # Check selected target and load model
     if target == 'SR.MMP':
-        with open('../production_model/fitted_xgb_mmp.pkl','rb') as f:
+        with open('production_model/fitted_xgb_mmp.pkl','rb') as f:
             trained_model = pickle.load(f)
     elif target == 'SR.ARE':
-        with open('../production_model/fitted_xgb_are.pkl','rb') as f:
+        with open('production_model/fitted_xgb_are.pkl','rb') as f:
             trained_model = pickle.load(f)
     else:
         return 'Please choose test: SR.MMP or SR.ARE'
 
+    # Predict and return
     prediction = int(trained_model.predict(X_predict)[0])
 
     if prediction == 1:
