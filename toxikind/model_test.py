@@ -11,5 +11,4 @@ X_sample = np.random.rand(1, 801)
 
 
 predictions = predict_model(model, X_sample)
-print(X_sample[0][0])
 print(predictions)
