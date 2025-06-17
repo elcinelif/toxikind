@@ -2,33 +2,38 @@
 #       toxikind       #
 #----------------------#
 run_fit_save_feature_scaler:
-	python -c "from toxikind.main import fit_save_feature_scaler; fit_save_feature_scaler('raw_data/tox21_dense_train.csv.gz', 'production_model')"
+	python -c "from toxikind.main import fit_save_feature_scaler; \
+		fit_save_feature_scaler('raw_data/tox21_dense_train.csv.gz', 'production_model')"
 
 run_load_transform_save_train_features:
-	python -c "from toxikind.main import load_transform_save_features; load_transform_save_features('production_model', 'raw_data/tox21_dense_train.csv.gz', 'data/X_train.csv')"
+	python -c "from toxikind.main import load_transform_save_features; \
+		load_transform_save_features('production_model', 'raw_data/tox21_dense_train.csv.gz', 'data/X_train.csv')"
 
 run_load_transform_save_test_features:
-	python -c "from toxikind.main import load_transform_save_features; load_transform_save_features('production_model', 'raw_data/tox21_dense_test.csv.gz', 'data/X_test.csv')"
+	python -c "from toxikind.main import load_transform_save_features; \
+		load_transform_save_features('production_model', 'raw_data/tox21_dense_test.csv.gz', 'data/X_test.csv')"
 
 run_preprocess_features: run_load_transform_save_train_features run_load_transform_save_test_features
 
 run_load_save_train_targets:
-	python -c "from toxikind.main import load_save_targets; load_save_targets('raw_data/tox21_labels_train.csv.gz', 'data/y_train.csv')"
+	python -c "from toxikind.main import load_save_targets; \
+		load_save_targets('raw_data/tox21_labels_train.csv.gz', 'data/y_train.csv')"
 
 run_load_save_test_targets:
-	python -c "from toxikind.main import load_save_targets; load_save_targets('raw_data/tox21_labels_test.csv.gz', 'data/y_test.csv')"
+	python -c "from toxikind.main import load_save_targets; \
+		load_save_targets('raw_data/tox21_labels_test.csv.gz', 'data/y_test.csv')"
 
 run_preprocess_targets: run_load_save_train_targets run_load_save_test_targets
 
 run_preprocess: run_preprocess_features run_preprocess_targets
 
-run_train:
+run_model_load:
 
-run_predict:
+run_model_predict:
 
-run_evaluate:
+run_model_evaluate:
 
-run_model: run_train run_predict run_evaluate
+run_model: run_model_load run_model_predict run_model_evaluate
 
 run_all: run_preprocess run_model
 
@@ -137,14 +142,20 @@ docker_create_repo:
 	gcloud artifacts repositories create $(DOCKER_REPO_NAME) \
 		--repository-format=docker \
 		--location=$(GCP_REGION) \
-		--description="Repository for storing docker images"
+		--description="Repository for storing toxikind docker images"
 
 docker_push:
 	docker push $(DOCKER_IMAGE_PATH):prod
 
-docker_deploy:
+docker_deploy_with_yaml:
 	gcloud run deploy \
 		--image $(DOCKER_IMAGE_PATH):prod \
 		--memory $(GAR_MEMORY) \
 		--region $(GCP_REGION) \
 		--env-vars-file .env.yaml
+
+docker_deploy:
+	gcloud run deploy \
+		--image $(DOCKER_IMAGE_PATH):prod \
+		--memory $(GAR_MEMORY) \
+		--region $(GCP_REGION)
