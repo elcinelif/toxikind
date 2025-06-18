@@ -8,62 +8,32 @@ MODEL_INFO_DICT = {
     'model_GBC_ahr': {
         'abbreviation': 'NR-AhR',
         'full_name': 'Aryl Hydrocarbon (NR-AhR)',
-        'threshold': 0.5
+        'threshold': 0.2926
     },
     'model_GBC_ar': {
         'abbreviation': 'NR-AR',
         'full_name': 'Androgen Receptor (NR-AR)',
-        'threshold': 0.5
+        'threshold': 0.4848
     },
     'model_GBC_are': {
         'abbreviation': 'SR-ARE',
         'full_name': 'Antioxidant Response (SR-ARE)',
-        'threshold': 0.5
-    },
-    'model_GBC_aromatase': {
-        'abbreviation': 'NR-Arom',
-        'full_name': 'Aromatase Inhibition (NR-Arom)',
-        'threshold': 0.5
-    },
-    'model_GBC_atad5': {
-        'abbreviation': 'SR-ATAD5',
-        'full_name': 'DNA Damage (SR-ATAD5)',
-        'threshold': 0.5
+        'threshold': 0.2092
     },
     'model_GBC_er_lbd': {
         'abbreviation': 'NR-ER-LBD',
         'full_name': 'Estrogen Receptor LBD (NR-ER-LBD)',
-        'threshold': 0.5
-    },
-    'model_GBC_er': {
-        'abbreviation': 'NR-ER',
-        'full_name': 'Estrogen Receptor (NR-ER)',
-        'threshold': 0.5
-    },
-    'model_GBC_hse': {
-        'abbreviation': 'SR-HSE',
-        'full_name': 'Heat Shock Response (SR-HSE)',
-        'threshold': 0.5
+        'threshold': 0.2157
     },
     'model_GBC_lbd': {
         'abbreviation': 'NR-AR-LBD',
         'full_name': 'Androgen Receptor LBD (NR-AR-LBD)',
-        'threshold': 0.5
+        'threshold': 0.4463
     },
     'model_GBC_mmp': {
         'abbreviation': 'SR-MMP',
         'full_name': 'Mitochondrial Membrane (SR-MMP)',
-        'threshold': 0.5
-    },
-    'model_GBC_p53': {
-        'abbreviation': 'SR-p53',
-        'full_name': 'p53 Stress Response (SR-p53)',
-        'threshold': 0.5
-    },
-    'model_GBC_ppar_gamma': {
-        'abbreviation': 'NR-PPARγ',
-        'full_name': 'PPAR-gamma (NR-PPARγ)',
-        'threshold': 0.5
+        'threshold': 0.2461
     }
 }
 
