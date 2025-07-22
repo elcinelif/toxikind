@@ -1,7 +1,7 @@
 # ToxiKind
 ## Quick description
-AI-Based Toxicity Prediction to Minimize Harm\
-(for both 🐭🐰🐹 &🧍)
+**AI-Based Toxicity Prediction to Minimize Harm\
+(for both 🐭🐰🐹 &🧍)**
 
 This is a final project of the [*Data Science & AI* course @ Le Wagon](https://www.lewagon.com/data-science-course), presented 2025-06-20.
 
@@ -20,7 +20,7 @@ Animal testing for drug discovery has serious limitations:
 Machine learning opens up many opportunities to reduce costs and the number of test animals:
 - Trained on human-relevant experimental data.
 - Fast *in-silico* screening of thousands of compounds.
-- Reduces unnecessary preclinical testing & harm.
+- Reduces preclinical animal testing & harm.
 
 Goals of this project are:
 - to predict the toxicity (to humans) of chemical compounds as reliably as possible.
@@ -29,10 +29,10 @@ Goals of this project are:
 The performance is measured using the [F1-Score](https://en.wikipedia.org/wiki/F-score), a harmonic mean balancing both the precision and recall of a supervised predictive model.
 
 # Data
-This project uses the [*Tox21*](http://bioinf.jku.at/research/DeepTox/tox21.html) dataset withh more than 8.000 compounds, each having about 800 chemical properties. Dependant variables are binary human toxicities for 12 biological assays.
+This project uses the [*Tox21*](http://bioinf.jku.at/research/DeepTox/tox21.html) dataset with more than 8.000 compounds, each having about 800 chemical properties. The dependent variables are toxicities for twelve biological assays in binary form.
 
 # Model
-In the current project status, a Gradient Boosting model is being used. More specific, the [*GradientBoostingClassifier*](https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html) implemented in Scikit-Learn.
+In the current project status, the [*Gradient Boosting Classifier*](https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html) from Scikit-Learn is being used.
 
 The model hyperparameters are:
 - Number of estimators = 300
@@ -41,7 +41,7 @@ The model hyperparameters are:
 
 # State & Future of the Project
 ## Performance
-Currently six out of twelve assays perform good enough for being implemented in the frontend.
+Currently, six out of twelve assays perform good enough for being implemented in the frontend.
 
 | Biological assay                  | Why It Matters?                                                      | F1-Score |
 |----------------------------------:|:---------------------------------------------------------------------|:---------|
@@ -52,7 +52,7 @@ Currently six out of twelve assays perform good enough for being implemented in 
 | Antioxidant Response (SR-ARE)     | Shows potential for cell damage                                      | 0.52     |
 | Mitochondrial Membrane (SR-MMP)   | Disrupts cell’s energy production, can lead to cell stress and death | 0.65     |
 
-The remaining assays yield F1-Scores of below 0.5 and are excluded.
+The F1-Scores of the remaining assays are too low so they cannot be taken into account.
 
 ## Postprocessing remaining
 - Refactoring remaining notebook code to Python files.
@@ -62,7 +62,7 @@ The remaining assays yield F1-Scores of below 0.5 and are excluded.
 
 ## Future Ideas
 Existing project structure:
-- Collect further data o overcome data imbalance & scarcity.
+- Collect further data to overcome data imbalance & scarcity.
 - Try more machine learning models to improve F1-Score, so all assays can be predicted.
 
 Possible restructuring of the project:
