@@ -27,15 +27,17 @@ run_preprocess_targets: run_load_save_train_targets run_load_save_test_targets
 
 run_preprocess: run_preprocess_features run_preprocess_targets
 
+run_model_train:
+
+run_model_save:
+
 run_model_load:
 
 run_model_predict:
 
 run_model_evaluate:
 
-run_model: run_model_load run_model_predict run_model_evaluate
 
-run_all: run_preprocess run_model
 
 #======================#
 # Install, clean, test #
@@ -58,12 +60,15 @@ clean:
 test_structure:
 	@bash tests/test_structure.sh
 
+
+
 #======================#
 #          API         #
 #======================#
 
 run_api:
 	uvicorn api.fast:app --reload --port 8000
+
 
 
 #======================#

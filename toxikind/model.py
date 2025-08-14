@@ -1,8 +1,23 @@
+# OS I/O
 import pickle
+
+# Data handling
 import numpy as np
+
+# Modeling
+from sklearn.base import BaseEstimator
+
+# Terminal output
 from colorama import Fore, Style
 
-def load_model(path: str):
+def model_train(assay: str) -> BaseEstimator:
+    pass
+
+def model_save(model: BaseEstimator,
+               path: str) -> None:
+    pass
+
+def model_load(path: str):
     """
     Load a scikit-learn model from a pickle (.pkl) file.
     """
@@ -15,7 +30,7 @@ def load_model(path: str):
     return model
 
 
-def predict_model(model, X: np.ndarray):
+def model_predict(model, X: np.ndarray) -> np.ndarray:
     """
     Predict using a scikit-learn model with a custom probability threshold.
 
@@ -37,3 +52,6 @@ def predict_model(model, X: np.ndarray):
     print(Fore.GREEN + "✅ Predictions completed" + Style.RESET_ALL)
 
     return predictions
+
+def model_evaluate(model: BaseEstimator) -> dict:
+    pass
