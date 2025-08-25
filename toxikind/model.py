@@ -1,8 +1,6 @@
-# OS I/O
-import pickle
-
 # Data handling
 import numpy as np
+import pandas as pd
 
 # Modeling
 from sklearn.base import BaseEstimator
@@ -10,27 +8,30 @@ from sklearn.base import BaseEstimator
 # Terminal output
 from colorama import Fore, Style
 
-def model_train(assay: str) -> BaseEstimator:
+def model_train(assay: str,
+                X_train: pd.DataFrame,
+                y_train: pd.DataFrame) -> BaseEstimator:
+    """
+    Purpose: select assay and train corresponding model
+    - (Valid assay check is done in main.py)
+    - Use assay argument to train on desired target
+    - Model and its parameters are hard-coded as of now
+    """
     pass
 
-def model_save(model: BaseEstimator,
-               path: str) -> None:
+def model_evaluate(model: BaseEstimator,
+                   X_test: pd.DataFrame,
+                   y_test: pd.DataFrame) -> dict:
+    """
+    Purpose: evaluate given model and return metrics
+    - (model selection is in main.py)
+    - Print metrics and return as dict
+    - (Save as JSON in main.py)
+    """
     pass
 
-def model_load(path: str):
-    """
-    Load a scikit-learn model from a pickle (.pkl) file.
-    """
-    print(Fore.BLUE + f"\nLoading model from '{path}'..." + Style.RESET_ALL)
-
-    with open(path, "rb") as f:
-        model = pickle.load(f)
-
-    print(Fore.GREEN + "✅ Model loaded successfully" + Style.RESET_ALL)
-    return model
-
-
-def model_predict(model, X: np.ndarray) -> np.ndarray:
+def model_predict(model: BaseEstimator,
+                  X: np.ndarray) -> np.ndarray:
     """
     Predict using a scikit-learn model with a custom probability threshold.
 
@@ -52,6 +53,3 @@ def model_predict(model, X: np.ndarray) -> np.ndarray:
     print(Fore.GREEN + "✅ Predictions completed" + Style.RESET_ALL)
 
     return predictions
-
-def model_evaluate(model: BaseEstimator) -> dict:
-    pass
