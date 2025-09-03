@@ -18,6 +18,7 @@ from sklearn.base import BaseEstimator
 from colorama import Fore, Style
 
 # Internal modules
+import toxikind.params
 from toxikind.processing import fit_feature_scaler, transform_features
 from toxikind.model import model_train, model_evaluate, model_predict
 
@@ -88,13 +89,26 @@ def load_save_targets(path_y_raw: str,
     y_train.to_csv(path_y, index=False)
     return None
 
-def load_data(data_category: str) -> pd.DataFrame:
+def load_data(base_path_data: str,
+              data: str) -> pd.DataFrame:
     """
     Purpose: load desired data
     - Check data category (X_train, y_train, X_test, y_test)
     - Select corresponding path, return error if not matched
     """
-    pass
+    valid_arguments = {
+        "X_train": "X_train.csv",
+        "y_train": "y_train.csv",
+        "X_test": "X_test.csv",
+        "y_test": "y_test.csv"
+        }
+
+    # Check if the key is valid
+    if data not in valid_arguments:
+        return Fore.RED + f"❌ '{data}' is not a valid option. Choose from: {', '.join(valid_arguments.keys())}" + Style.RESET_ALL
+    full_path_data = os.path.normpath(os.path.join(base_path_data, data))
+    df = pd.read_csv(full_path_data).set_index("ID")
+    return df
 
 def check_valid_assay(assay: str) -> None:
     """
@@ -119,13 +133,14 @@ def load_model(assay: str) -> BaseEstimator:
 
     WARNING: many functions below depend on this one. Keep it above
     """
-    print(Fore.BLUE + f"\nLoading model from '{path_model}'..." + Style.RESET_ALL)
+    #print(Fore.BLUE + f"\nLoading model from '{path_model}'..." + Style.RESET_ALL)
 
-    with open(path_model, "rb") as f:
-        model = pickle.load(f)
+    #with open(path_model, "rb") as f:
+    #    model = pickle.load(f)
 
-    print(Fore.GREEN + "✅ Model loaded successfully" + Style.RESET_ALL)
-    return model
+    #print(Fore.GREEN + "✅ Model loaded successfully" + Style.RESET_ALL)
+    #return model
+    pass
 
 def save_model_metrics(assay: str)-> None:
     """
@@ -167,42 +182,12 @@ def save_model_metrics_all(assays: dict)-> None:
     """
     pass
 
-if __name__ == "__main__":
-    # Fit/Save scaler
-    path_X_train_raw = "raw_data/tox21_dense_train.csv.gz"
-    path_feature_scaler = "production_model"
-    fit_save_feature_scaler(path_X_train_raw, path_feature_scaler)
+if __name__ == '__main__':
+    try:
+        fit_save_feature_scaler("NCGC00261900-01")
+    except:
+        import ipdb, traceback, sys
 
-    # Load/Transform/Save training features
-    path_feature_scaler = "production_model"
-    path_x_raw = "raw_data/tox21_dense_train.csv.gz"
-    path_x = "data/X_train.csv"
-    load_transform_save_features(path_feature_scaler, path_x_raw, path_x)
-
-    # Load/Save training targets
-    path_y_raw = "raw_data/tox21_labels_train.csv.gz"
-    path_y = "data/y_train.csv"
-    load_save_targets(path_y_raw, path_y)
-
-    # Load/Transform/Save testing features
-    path_feature_scaler = "production_model"
-    path_x_raw = "raw_data/tox21_dense_test.csv.gz"
-    path_x = "data/X_test.csv"
-    load_transform_save_features(path_feature_scaler, path_x_raw, path_x)
-
-    # Load/Save testing targets
-    path_y_raw = "raw_data/tox21_labels_test.csv.gz"
-    path_y = "data/y_test.csv"
-    load_save_targets(path_y_raw, path_y)
-
-    # Train/save model
-    path_model = "models"
-    train_save_model()
-
-    # Evaluate/save model
-    path_model = "models"
-    save_model_metrics()
-
-    # Predict/save model
-    path_model = "models"
-    save_model_prediction()
+        extype, value, tb = sys.exc_info()
+        traceback.print_exc()
+        ipdb.post_mortem(tb)
