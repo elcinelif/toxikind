@@ -107,8 +107,9 @@ def load_data(base_path_data: str,
 
     # Check if the key is valid
     if data not in valid_arguments:
-        print(Fore.RED + f"❌ '{data}' is not a valid option. Choose from: {', '.join(valid_arguments.keys())}" + Style.RESET_ALL)
-        sys.exit(1)  # Exit with error code
+        error_msg = f"❌ '{data}' is not a valid option. Choose from: {', '.join(valid_arguments.keys())}"
+        print(Fore.RED + error_msg + Style.RESET_ALL)
+        raise ValueError(error_msg)
 
     # Load data
     full_path_data = os.path.normpath(os.path.join(base_path_data, valid_arguments.get(data)))
