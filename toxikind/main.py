@@ -23,8 +23,8 @@ import toxikind.params as params
 from toxikind.processing import fit_feature_scaler, transform_features
 from toxikind.model import model_train, model_evaluate, model_predict
 
-def fit_save_feature_scaler(path_X_train_raw: str,
-                            path_feature_scaler: str
+def fit_save_feature_scaler(path_X_train_raw: str=params.PATH_X_TRAIN_RAW,
+                            path_feature_scaler: str=params.PATH_FEATURE_SCALER
                            ) -> None:
     """
     This is a wrapper for "processing.fit_feature_scaler".
@@ -52,11 +52,12 @@ def fit_save_feature_scaler(path_X_train_raw: str,
 
     return None
 
-def load_transform_save_features(path_feature_scaler: str,
-                                 path_x_raw: str,
-                                 path_x: str
+def load_transform_save_features(path_x_raw: str,
+                                 path_x: str,
+                                 path_feature_scaler: str=params.PATH_FEATURE_SCALER
                                 ) -> None:
     """
+    TODO: FEATURE SELECTOR
     This is a wrapper for "processing.transform_features".
 
     Parameters:
@@ -91,6 +92,7 @@ def load_save_targets(path_y_raw: str,
                       path_y: str
                      ) -> None:
     """
+    TODO: Target selector
     Loads raw target data from given path, renames
     and saves it to given path.
 
@@ -105,12 +107,15 @@ def load_save_targets(path_y_raw: str,
     Note: assumes the raw data index column being unnamed and
     renames it to "ID".
     """
+    print("Transforming targets...")
     y_train = pd.read_csv(path_y_raw).rename(columns={"Unnamed: 0": "ID"})
     y_train.to_csv(path_y, index=False)
+    print("✅ Targets transformed")
     return None
 
-def load_data(base_path_data: str,
-              data: str) -> pd.DataFrame:
+def load_data(data: str,
+              base_path_data: str=params.BASE_PATH_DATA,
+             ) -> pd.DataFrame:
     """
     Loads preprocessed data.
 
@@ -240,17 +245,14 @@ def save_model_metrics_all(assays: dict)-> dict:
 
 if __name__ == "__main__":
     if sys.argv[1] == "run_fit_save_feature_scaler":
-        fit_save_feature_scaler(params.PATH_X_TRAIN_RAW,
-                                params.PATH_FEATURE_SCALER)
+        fit_save_feature_scaler()
 
     elif sys.argv[1] == "run_load_transform_save_train_features":
-        load_transform_save_features(params.PATH_FEATURE_SCALER,
-                                     params.PATH_X_TRAIN_RAW,
+        load_transform_save_features(params.PATH_X_TRAIN_RAW,
                                      params.PATH_X_TRAIN)
 
     elif sys.argv[1] == "run_load_transform_save_test_features":
-        load_transform_save_features(params.PATH_FEATURE_SCALER,
-                                     params.PATH_X_TEST_RAW,
+        load_transform_save_features(params.PATH_X_TEST_RAW,
                                      params.PATH_X_TEST)
 
     elif sys.argv[1] == "run_load_save_train_targets":
@@ -262,19 +264,19 @@ if __name__ == "__main__":
                           params.PATH_Y_TEST)
 
     elif sys.argv[1] == "run_show_train_features":
-        print(load_data(params.BASE_PATH_DATA, data="X_train").head())
+        print(load_data("X_train").head())
 
     elif sys.argv[1] == "run_show_test_features":
-        print(load_data(params.BASE_PATH_DATA, data="X_test").head())
+        print(load_data("X_test").head())
 
     elif sys.argv[1] == "run_show_train_targets":
-        print(load_data(params.BASE_PATH_DATA, data="y_train").head())
+        print(load_data("y_train").head())
 
     elif sys.argv[1] == "run_show_test_targets":
-        print(load_data(params.BASE_PATH_DATA, data="y_test").head())
+        print(load_data("y_test").head())
 
     elif sys.argv[1] == "run_show_invalid_data_input":
-        print(load_data(params.BASE_PATH_DATA, data="Z-vor!").head())
+        print(load_data("Z-vor!").head())
 
     else:
         print("Unknown command.")
