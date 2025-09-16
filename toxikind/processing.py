@@ -6,7 +6,13 @@ from sklearn.compose import ColumnTransformer
 
 def fit_feature_scaler(X_train_raw: pd.DataFrame) -> Pipeline:
     """
-    This function fits a MinMaxScaler with raw feature training data
+    Fits a MinMaxScaler with raw feature training data.
+
+    Parameters:
+    - X_train_raw: raw feature training data
+
+    Returns:
+    - Feature Scaler
     """
     # ColumnTransformer with MinMaxScaler
     column_transformer = ColumnTransformer([
@@ -28,7 +34,14 @@ def fit_feature_scaler(X_train_raw: pd.DataFrame) -> Pipeline:
 
 def transform_features(X_raw: pd.DataFrame, feature_scaler: Pipeline) -> pd.DataFrame:
     """
-    This function transforms features using a scaler fitted on raw feature training data
+    Transforms features using a scaler fitted on raw feature training data.
+
+    Parameters:
+    - X_raw: raw feature data
+    - feature_scaler: feature scaler
+
+    Returns:
+    - Scaled data
     """
     # Transform features
     print("Transforming features...")

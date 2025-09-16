@@ -28,11 +28,16 @@ def fit_save_feature_scaler(path_X_train_raw: str,
                            ) -> None:
     """
     This is a wrapper for "processing.fit_feature_scaler".
-    It loads raw feature training data from given path,
-    calls "processing.train_feature_scaler" and
-    saves the trained scaler as .pkl.
 
-    It assumes the raw data index column being unnamed.
+    Parameters:
+    - path_X_train_raw: path to raw training feature data
+    - path_feature_scaler: path to store trained feature scaler
+
+    Returns:
+    - A feature scaler in .pkl format on hard drive
+    - None to namespace
+
+    Note: assumes the raw data index column being unnamed.
     """
     # Laad raw feature training data from disk and set index
     X_train_raw = pd.read_csv(path_X_train_raw).set_index("Unnamed: 0")
@@ -53,11 +58,17 @@ def load_transform_save_features(path_feature_scaler: str,
                                 ) -> None:
     """
     This is a wrapper for "processing.transform_features".
-    It loads a fitted scaler from given path, raw feature data,
-    calls "processing.transform_features" and
-    saves the transformed data as .csv.
 
-    It assumes the raw data index column being unnamed and
+    Parameters:
+    - path_feature_scaler: path to store trained feature scaler
+    - path_X_raw: path to raw feature data
+    - path_x: path to save transformed feature data
+
+    Returns:
+    - Transformed feature data in .csv format to hard drive
+    - None to namespace
+
+    Note: assumes the raw data index column being unnamed and
     renames it to "ID".
     """
     # Load feature_scaler
@@ -80,10 +91,18 @@ def load_save_targets(path_y_raw: str,
                       path_y: str
                      ) -> None:
     """
-    This function loads raw target data from given path, renames
+    Loads raw target data from given path, renames
     and saves it to given path.
 
-    It assumes the raw data index column being unnamed and
+    Arguments:
+    - path_y_raw: path to raw target data
+    - path_y: path to store renamed target data
+
+    Returns:
+    - Renamed target data in .csv format to hard drive
+    - None to namespace
+
+    Note: assumes the raw data index column being unnamed and
     renames it to "ID".
     """
     y_train = pd.read_csv(path_y_raw).rename(columns={"Unnamed: 0": "ID"})
@@ -93,9 +112,14 @@ def load_save_targets(path_y_raw: str,
 def load_data(base_path_data: str,
               data: str) -> pd.DataFrame:
     """
-    Purpose: load desired data
-    - Check data category (X_train, y_train, X_test, y_test)
-    - Select corresponding path, return error if not matched
+    Loads preprocessed data.
+
+    Parameters:
+    - base_path_data: path to data folder
+    - data: type of data to be loaded
+
+    Returns:
+    - Data
     """
     # Dict of valid arguments for "data" parameter.
     valid_arguments = { #This stays here because it is short and static
@@ -173,14 +197,6 @@ def train_save_model_all(assays: dict) -> None:
     pass
 
 def save_model_metrics_all(assays: dict)-> dict:
-    """
-    Purpose: wrapper for evaluate model and save metrics of all models
-    - Access list of used models and loop above method through it.
-    - Save all metrics
-    """
-    pass
-
-def save_model_metrics_all(assays: dict)-> None:
     """
     Purpose: wrapper for evaluate model and save metrics of all models
     - Access list of used models and loop above method through it.
