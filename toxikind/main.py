@@ -120,6 +120,11 @@ def load_data(base_path_data: str,
 
     Returns:
     - Data
+
+    Raises:
+    - ValueError if type of data is not valid
+
+    Note: has several dependencies
     """
     # Dict of valid arguments for "data" parameter.
     valid_arguments = { #This stays here because it is short and static
@@ -140,13 +145,28 @@ def load_data(base_path_data: str,
     df = pd.read_csv(full_path_data).set_index("ID")
     return df
 
-def check_valid_assay(assay: str) -> None:
+def check_valid_assay(assay: str,
+                      valid_assays: dict = params.VALID_ASSAYS) -> None:
     """
-    Purpose: Check if assay is valid
-    - Check if argument included in dict
-    - Return error message and list of valid assays if not matched
-    WARNING: many functions below depend on this one. Keep it above
+    Checks if assay is valid.
+
+    Parameters:
+    - assay: desired assay
+    - valid_assays: dict of valid assays
+
+    Returns:
+    - None
+
+    Raises:
+    - ValueError if desired assay is not valid
+
+    Note: has several dependencies
     """
+    if assay not in valid_assays:
+        error_msg = f"❌ '{assay}' is not valid. Choose from: {', '.join(valid_assays.keys())}"
+        print(Fore.RED + error_msg + Style.RESET_ALL)
+        raise ValueError(error_msg)
+    return None
 
 def train_save_model(assay: str) -> None:
     """

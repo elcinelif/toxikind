@@ -32,3 +32,12 @@ BASE_PATH_MODEL = "models"
 ################## MODEL HYPERPARAMETERS ##################
 
 ################## VALIDATIONS ##################
+VALID_ASSAYS = {
+                "NR.AhR": "ahr",
+                "NR.AR": "ar",
+                "SR.ARE": "are",
+                "NR.ER.LBD": "er_lbd",
+                "NR.AR.LBD": "ar_lbd", #Inaccurate in the notebook ("lbd")!
+                # This WILL cause incomp with fast.py to be fixed!
+                "SR.MMP": "mmp"
+               }
