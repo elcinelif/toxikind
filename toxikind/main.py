@@ -97,6 +97,7 @@ def load_data(base_path_data: str,
     - Check data category (X_train, y_train, X_test, y_test)
     - Select corresponding path, return error if not matched
     """
+    # Dict of valid arguments for "data" parameter.
     valid_arguments = { #This stays here because it is short and static
         "X_train": "X_train.csv",
         "y_train": "y_train.csv",
@@ -106,8 +107,11 @@ def load_data(base_path_data: str,
 
     # Check if the key is valid
     if data not in valid_arguments:
-        return Fore.RED + f"❌ '{data}' is not a valid option. Choose from: {', '.join(valid_arguments.keys())}" + Style.RESET_ALL
-    full_path_data = os.path.normpath(os.path.join(base_path_data, data))
+        print(Fore.RED + f"❌ '{data}' is not a valid option. Choose from: {', '.join(valid_arguments.keys())}" + Style.RESET_ALL)
+        sys.exit(1)  # Exit with error code
+
+    # Load data
+    full_path_data = os.path.normpath(os.path.join(base_path_data, valid_arguments.get(data)))
     df = pd.read_csv(full_path_data).set_index("ID")
     return df
 
@@ -206,5 +210,20 @@ if __name__ == "__main__":
         load_save_targets(params.PATH_Y_TEST_RAW,
                           params.PATH_Y_TEST)
 
+    elif sys.argv[1] == "run_show_train_features":
+        print(load_data(params.BASE_PATH_DATA, data="X_train").head())
+
+    elif sys.argv[1] == "run_show_test_features":
+        print(load_data(params.BASE_PATH_DATA, data="X_test").head())
+
+    elif sys.argv[1] == "run_show_train_targets":
+        print(load_data(params.BASE_PATH_DATA, data="y_train").head())
+
+    elif sys.argv[1] == "run_show_test_targets":
+        print(load_data(params.BASE_PATH_DATA, data="y_test").head())
+
+    elif sys.argv[1] == "run_show_invalid_data_input":
+        print(load_data(params.BASE_PATH_DATA, data="Z-vor!").head())
+
     else:
-        print("Unknown command. Use 'greet' or 'describe'.")
+        print("Unknown command.")

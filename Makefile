@@ -22,6 +22,21 @@ run_preprocess_targets: run_load_save_train_targets run_load_save_test_targets
 
 run_preprocess: run_preprocess_features run_preprocess_targets
 
+run_show_train_features:
+	python toxikind/main.py run_show_train_features
+
+run_show_test_features:
+	python toxikind/main.py run_show_test_features
+
+run_show_train_targets:
+	python toxikind/main.py run_show_train_targets
+
+run_show_test_targets:
+	python toxikind/main.py run_show_test_targets
+
+run_show_invalid_data_input:
+	python toxikind/main.py run_show_invalid_data_input
+
 run_model_train:
 
 run_model_save:
