@@ -2,26 +2,21 @@
 #       toxikind       #
 #----------------------#
 run_fit_save_feature_scaler:
-	python -c "from toxikind.main import fit_save_feature_scaler; \
-		fit_save_feature_scaler('raw_data/tox21_dense_train.csv.gz', 'production_model')"
+	python toxikind/main.py run_fit_save_feature_scaler
 
 run_load_transform_save_train_features:
-	python -c "from toxikind.main import load_transform_save_features; \
-		load_transform_save_features('production_model', 'raw_data/tox21_dense_train.csv.gz', 'data/X_train.csv')"
+	python toxikind/main.py run_load_transform_save_train_features
 
 run_load_transform_save_test_features:
-	python -c "from toxikind.main import load_transform_save_features; \
-		load_transform_save_features('production_model', 'raw_data/tox21_dense_test.csv.gz', 'data/X_test.csv')"
+	python toxikind/main.py run_load_transform_save_test_features
 
 run_preprocess_features: run_load_transform_save_train_features run_load_transform_save_test_features
 
 run_load_save_train_targets:
-	python -c "from toxikind.main import load_save_targets; \
-		load_save_targets('raw_data/tox21_labels_train.csv.gz', 'data/y_train.csv')"
+	python toxikind/main.py run_load_save_train_targets
 
 run_load_save_test_targets:
-	python -c "from toxikind.main import load_save_targets; \
-		load_save_targets('raw_data/tox21_labels_test.csv.gz', 'data/y_test.csv')"
+	python toxikind/main.py run_load_save_test_targets
 
 run_preprocess_targets: run_load_save_train_targets run_load_save_test_targets
 

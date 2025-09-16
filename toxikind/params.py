@@ -15,14 +15,19 @@ GCP_REGION = os.environ.get("GCP_REGION")
 DOCKER_REPO_NAME = os.environ.get("DOCKER_REPO_NAME")
 GAR_IMAGE = os.environ.get("GAR_IMAGE")
 GAR_MEMORY = os.environ.get("GAR_MEMORY")
+
 ##################  CONSTANTS  ##################
 PATH_X_TRAIN_RAW = "raw_data/tox21_dense_train.csv.gz"
 PATH_FEATURE_SCALER = "production_model"
-PATH_X_RAW = "raw_data/tox21_dense_train.csv.gz"
-PATH_X = "data/X_train.csv"
-PATH_Y_RAW = "raw_data/tox21_labels_train.csv.gz"
-PATH_Y = "data/y_train.csv"
+PATH_X_TRAIN = "data/X_train.csv"
+PATH_X_TEST_RAW = "raw_data/tox21_dense_test.csv.gz"
+PATH_X_TEST = "data/X_test.csv"
+PATH_Y_TRAIN_RAW = "raw_data/tox21_labels_train.csv.gz"
+PATH_Y_TRAIN = "data/y_train.csv"
+PATH_Y_TEST_RAW = "raw_data/tox21_labels_test.csv.gz"
+PATH_Y_TEST = "data/y_test.csv"
 BASE_PATH_DATA = "data"
+BASE_PATH_MODEL = "models"
 
 ################## MODEL HYPERPARAMETERS ##################
 

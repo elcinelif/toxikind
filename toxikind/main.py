@@ -4,6 +4,7 @@ Most methods are wrappers for methods included in model.py and processing.py
 """
 
 # OS I/O
+import sys
 import os
 import pickle
 import json
@@ -11,14 +12,14 @@ import json
 # Data handling
 import pandas as pd
 
-# Modeling (for type hinting only)
+# Modeling (in this file for type hinting only)
 from sklearn.base import BaseEstimator
 
 # Terminal output
 from colorama import Fore, Style
 
 # Internal modules
-import toxikind.params
+import toxikind.params as params
 from toxikind.processing import fit_feature_scaler, transform_features
 from toxikind.model import model_train, model_evaluate, model_predict
 
@@ -96,7 +97,7 @@ def load_data(base_path_data: str,
     - Check data category (X_train, y_train, X_test, y_test)
     - Select corresponding path, return error if not matched
     """
-    valid_arguments = {
+    valid_arguments = { #This stays here because it is short and static
         "X_train": "X_train.csv",
         "y_train": "y_train.csv",
         "X_test": "X_test.csv",
@@ -182,12 +183,28 @@ def save_model_metrics_all(assays: dict)-> None:
     """
     pass
 
-if __name__ == '__main__':
-    try:
-        fit_save_feature_scaler("NCGC00261900-01")
-    except:
-        import ipdb, traceback, sys
+if __name__ == "__main__":
+    if sys.argv[1] == "run_fit_save_feature_scaler":
+        fit_save_feature_scaler(params.PATH_X_TRAIN_RAW,
+                                params.PATH_FEATURE_SCALER)
 
-        extype, value, tb = sys.exc_info()
-        traceback.print_exc()
-        ipdb.post_mortem(tb)
+    elif sys.argv[1] == "run_load_transform_save_train_features":
+        load_transform_save_features(params.PATH_FEATURE_SCALER,
+                                     params.PATH_X_TRAIN_RAW,
+                                     params.PATH_X_TRAIN)
+
+    elif sys.argv[1] == "run_load_transform_save_test_features":
+        load_transform_save_features(params.PATH_FEATURE_SCALER,
+                                     params.PATH_X_TEST_RAW,
+                                     params.PATH_X_TEST)
+
+    elif sys.argv[1] == "run_load_save_train_targets":
+        load_save_targets(params.PATH_Y_TRAIN_RAW,
+                          params.PATH_Y_TRAIN)
+
+    elif sys.argv[1] == "run_load_save_test_targets":
+        load_save_targets(params.PATH_Y_TEST_RAW,
+                          params.PATH_Y_TEST)
+
+    else:
+        print("Unknown command. Use 'greet' or 'describe'.")
