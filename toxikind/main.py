@@ -34,7 +34,7 @@ def fit_save_feature_scaler(path_X_train_raw: str,
     - path_feature_scaler: path to store trained feature scaler
 
     Returns:
-    - A feature scaler in .pkl format on hard drive
+    - A feature scaler in .pkl format to hard drive
     - None to namespace
 
     Note: assumes the raw data index column being unnamed.
@@ -168,13 +168,27 @@ def check_valid_assay(assay: str,
         raise ValueError(error_msg)
     return None
 
-def train_save_model(assay: str) -> None:
+def train_save_model(assay: str,
+                     base_path_model: str = params.BASE_PATH_MODEL) -> None:
     """
-    Purpose: wrapper for model_train for one assay with saving
-    - Load processed training data and call model_train
-    - (NO train-val-split here)
-    - Save new model as pickle
+    This is a wrapper for "model.model_train" with saving.
+    Includes assay validity check.
+
+    Parameters:
+    - assay: desired assay
+    - base_path_model: path to save model to
+
+    Returns:
+    - A model in .pkl format to hard drive
+    - None to namespace
+
+    Note: model path is different from production model path, unlike the path
+    of the feature scaler. Moving models to production happens manually with OS.
     """
+    # Check assay argument
+    # Load data from hard drive
+    # Call model.model_train
+    # Save model to hard drive
     pass
 
 def load_model(assay: str) -> BaseEstimator:

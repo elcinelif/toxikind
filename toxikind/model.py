@@ -14,10 +14,17 @@ def model_train(assay: str,
                 X_train: pd.DataFrame,
                 y_train: pd.DataFrame) -> BaseEstimator:
     """
-    Purpose: select assay and train corresponding model
-    - (Valid assay check is done in main.py)
-    - Use assay argument to prepare data and train on desired target
-    - Model and its parameters are hard-coded as of now
+    Trains model for desired assay. Includes data preparation.
+
+    Parameters:
+    - assay: desired assay
+    - X_train: training feature data
+    - y_train: training target data
+
+    Returns:
+    - Model
+
+    Note: model hyperparameters are hardcoded.
     """
     ## Data preparation
     print(Fore.BLUE + "\nPreparing data..." + Style.RESET_ALL)
