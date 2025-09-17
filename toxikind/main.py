@@ -52,8 +52,9 @@ def fit_save_feature_scaler(path_X_train_raw: str=params.PATH_X_TRAIN_RAW,
 
     return None
 
-def load_transform_save_features(path_x_raw: str,
-                                 path_x: str,
+def load_transform_save_features(data: str,
+                                 path_x_raw: str = None,
+                                 path_x: str = None,
                                  path_feature_scaler: str=params.PATH_FEATURE_SCALER
                                 ) -> None:
     """
@@ -72,6 +73,22 @@ def load_transform_save_features(path_x_raw: str,
     Note: assumes the raw data index column being unnamed and
     renames it to "ID".
     """
+    # Match desired feature data type with corresponding path
+    if path_x_raw is None and path_x is None: #Causes error if only one is set
+        match data:
+            case "train":
+                path_x_raw = params.PATH_X_TRAIN_RAW
+                path_x = params.PATH_X_TRAIN
+            case "test":
+                path_x_raw = params.PATH_X_TEST_RAW
+                path_x = params.PATH_X_TEST
+            case _:
+                error_msg = f"❌ '{data}' is not a valid option. Choose either 'train' or 'test'"
+                print(Fore.RED + error_msg + Style.RESET_ALL)
+                raise ValueError(error_msg)
+    else:
+        print(Fore.YELLOW + "⚠️ Paths already set. Skipping reassignment." + Style.RESET_ALL)
+
     # Load feature_scaler
     path_feature_scaler = f"{path_feature_scaler}/feature_scaler.pkl"
     with open(path_feature_scaler, "rb") as file:
@@ -88,7 +105,7 @@ def load_transform_save_features(path_x_raw: str,
     X = X.reset_index()
     X.to_csv(path_x, index=False)
 
-def load_save_targets(path_y_raw: str,
+def load_transform_save_targets(path_y_raw: str,
                       path_y: str
                      ) -> None:
     """
@@ -248,19 +265,20 @@ if __name__ == "__main__":
         fit_save_feature_scaler()
 
     elif sys.argv[1] == "run_load_transform_save_train_features":
-        load_transform_save_features(params.PATH_X_TRAIN_RAW,
-                                     params.PATH_X_TRAIN)
+        load_transform_save_features("train")
 
     elif sys.argv[1] == "run_load_transform_save_test_features":
-        load_transform_save_features(params.PATH_X_TEST_RAW,
-                                     params.PATH_X_TEST)
+        load_transform_save_features("test")
 
-    elif sys.argv[1] == "run_load_save_train_targets":
-        load_save_targets(params.PATH_Y_TRAIN_RAW,
+    elif sys.argv[1] == "run_load_transform_save_valid_features":
+        load_transform_save_features("valid")
+
+    elif sys.argv[1] == "run_load_transform_save_train_targets":
+        load_transform_save_targets(params.PATH_Y_TRAIN_RAW,
                           params.PATH_Y_TRAIN)
 
-    elif sys.argv[1] == "run_load_save_test_targets":
-        load_save_targets(params.PATH_Y_TEST_RAW,
+    elif sys.argv[1] == "run_load_transform_save_test_targets":
+        load_transform_save_targets(params.PATH_Y_TEST_RAW,
                           params.PATH_Y_TEST)
 
     elif sys.argv[1] == "run_show_train_features":
