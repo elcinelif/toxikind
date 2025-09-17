@@ -15,11 +15,14 @@ run_load_transform_save_valid_features: #There is no validation data in this pro
 
 run_preprocess_features: run_load_transform_save_train_features run_load_transform_save_test_features
 
-run_load_save_train_targets:
+run_load_transform_save_train_targets:
 	python toxikind/main.py run_load_transform_save_train_targets
 
-run_load_save_test_targets:
-	python toxikind/main.py run_load__transform_save_test_targets
+run_load_transform_save_test_targets:
+	python toxikind/main.py run_load_transform_save_test_targets
+
+run_load_transform_save_valid_targets: #There is no validation data in this project! Should cause error
+	python toxikind/main.py run_load_transform_save_valid_targets
 
 run_preprocess_targets: run_load_save_train_targets run_load_save_test_targets
 

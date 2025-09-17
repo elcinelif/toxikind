@@ -53,13 +53,13 @@ def fit_save_feature_scaler(path_X_train_raw: str=params.PATH_X_TRAIN_RAW,
     return None
 
 def load_transform_save_features(data: str,
-                                 path_x_raw: str = None,
-                                 path_x: str = None,
+                                 path_x_raw: str=None,
+                                 path_x: str=None,
                                  path_feature_scaler: str=params.PATH_FEATURE_SCALER
                                 ) -> None:
     """
-    TODO: FEATURE SELECTOR
-    This is a wrapper for "processing.transform_features".
+    Wrapper for "processing.transform_features" with hard drive operations
+    and feature data type selection.
 
     Parameters:
     - path_feature_scaler: path to store trained feature scaler
@@ -105,13 +105,13 @@ def load_transform_save_features(data: str,
     X = X.reset_index()
     X.to_csv(path_x, index=False)
 
-def load_transform_save_targets(path_y_raw: str,
-                      path_y: str
-                     ) -> None:
+def load_transform_save_targets(data: str,
+                                path_y_raw: str=None,
+                                path_y: str=None
+                               ) -> None:
     """
-    TODO: Target selector
-    Loads raw target data from given path, renames
-    and saves it to given path.
+    Loads raw target data for selected data type. Due to the simplicity of operations
+    this is the transformer und wrapper for hard drive operations in one function.
 
     Arguments:
     - path_y_raw: path to raw target data
@@ -124,6 +124,23 @@ def load_transform_save_targets(path_y_raw: str,
     Note: assumes the raw data index column being unnamed and
     renames it to "ID".
     """
+    # Match desired feature data type with corresponding path
+    if path_y_raw is None and path_y is None: #Causes error if only one is set
+        match data:
+            case "train":
+                path_y_raw = params.PATH_Y_TRAIN_RAW
+                path_y = params.PATH_Y_TRAIN
+            case "test":
+                path_y_raw = params.PATH_Y_TEST_RAW
+                path_y = params.PATH_Y_TEST
+            case _:
+                error_msg = f"❌ '{data}' is not a valid option. Choose either 'train' or 'test'"
+                print(Fore.RED + error_msg + Style.RESET_ALL)
+                raise ValueError(error_msg)
+    else:
+        print(Fore.YELLOW + "⚠️ Paths already set. Skipping reassignment." + Style.RESET_ALL)
+
+    # Transform targets
     print("Transforming targets...")
     y_train = pd.read_csv(path_y_raw).rename(columns={"Unnamed: 0": "ID"})
     y_train.to_csv(path_y, index=False)
@@ -274,12 +291,13 @@ if __name__ == "__main__":
         load_transform_save_features("valid")
 
     elif sys.argv[1] == "run_load_transform_save_train_targets":
-        load_transform_save_targets(params.PATH_Y_TRAIN_RAW,
-                          params.PATH_Y_TRAIN)
+        load_transform_save_targets("train")
 
     elif sys.argv[1] == "run_load_transform_save_test_targets":
-        load_transform_save_targets(params.PATH_Y_TEST_RAW,
-                          params.PATH_Y_TEST)
+        load_transform_save_targets("test")
+
+    elif sys.argv[1] == "run_load_transform_save_valid_targets":
+        load_transform_save_features("valid")
 
     elif sys.argv[1] == "run_show_train_features":
         print(load_data("X_train").head())
