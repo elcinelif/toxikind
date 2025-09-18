@@ -4,7 +4,6 @@ Most methods are wrappers for methods included in model.py and processing.py
 """
 
 # OS I/O
-import sys
 import os
 import pickle
 import json
@@ -278,41 +277,31 @@ def save_model_metrics_all(assays: dict)-> dict:
     pass
 
 if __name__ == "__main__":
-    if sys.argv[1] == "run_fit_save_feature_scaler":
-        fit_save_feature_scaler()
-
-    elif sys.argv[1] == "run_load_transform_save_train_features":
-        load_transform_save_features("train")
-
-    elif sys.argv[1] == "run_load_transform_save_test_features":
-        load_transform_save_features("test")
-
-    elif sys.argv[1] == "run_load_transform_save_valid_features":
-        load_transform_save_features("valid")
-
-    elif sys.argv[1] == "run_load_transform_save_train_targets":
-        load_transform_save_targets("train")
-
-    elif sys.argv[1] == "run_load_transform_save_test_targets":
-        load_transform_save_targets("test")
-
-    elif sys.argv[1] == "run_load_transform_save_valid_targets":
-        load_transform_save_features("valid")
-
-    elif sys.argv[1] == "run_show_train_features":
-        print(load_data("X_train").head())
-
-    elif sys.argv[1] == "run_show_test_features":
-        print(load_data("X_test").head())
-
-    elif sys.argv[1] == "run_show_train_targets":
-        print(load_data("y_train").head())
-
-    elif sys.argv[1] == "run_show_test_targets":
-        print(load_data("y_test").head())
-
-    elif sys.argv[1] == "run_show_invalid_data_input":
-        print(load_data("Z-vor!").head())
-
-    else:
-        print("Unknown command.")
+    import sys
+    match sys.argv[1]:
+        case "run_fit_save_feature_scaler":
+            fit_save_feature_scaler()
+        case "run_load_transform_save_train_features":
+            load_transform_save_features("train")
+        case "run_load_transform_save_test_features":
+            load_transform_save_features("test")
+        case "run_load_transform_save_valid_features":
+            load_transform_save_features("valid")
+        case "run_load_transform_save_train_targets":
+            load_transform_save_targets("train")
+        case "run_load_transform_save_test_targets":
+            load_transform_save_targets("test")
+        case "run_load_transform_save_valid_targets":
+            load_transform_save_features("valid")
+        case "run_show_train_features":
+            print(load_data("X_train").head())
+        case "run_show_test_features":
+            print(load_data("X_test").head())
+        case "run_show_train_targets":
+            print(load_data("y_train").head())
+        case "run_show_test_targets":
+            print(load_data("y_test").head())
+        case "run_show_invalid_data_input":
+            print(load_data("Z-vor!").head())
+        case _:
+            print("Unknown command.")
