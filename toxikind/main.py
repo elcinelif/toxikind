@@ -3,6 +3,9 @@ This script includes all OS I/O methods and utilities
 Most methods are wrappers for methods included in model.py and processing.py
 """
 
+# Runtime
+import time
+
 # OS I/O
 import os
 import pickle
@@ -140,10 +143,10 @@ def load_transform_save_targets(data: str,
         print(Fore.YELLOW + "⚠️ Paths already set. Skipping reassignment." + Style.RESET_ALL)
 
     # Transform targets
-    print("Transforming targets...")
+    print(Fore.BLUE + "Transforming targets..." + Style.RESET_ALL)
     y_train = pd.read_csv(path_y_raw).rename(columns={"Unnamed: 0": "ID"})
     y_train.to_csv(path_y, index=False)
-    print("✅ Targets transformed")
+    print(Fore.GREEN + "✅ Targets transformed" + Style.RESET_ALL)
     return None
 
 def load_data(data: str,
@@ -179,8 +182,10 @@ def load_data(data: str,
         raise ValueError(error_msg)
 
     # Load data
+    print(Fore.BLUE + f"Loading {data} data..." + Style.RESET_ALL)
     full_path_data = os.path.normpath(os.path.join(base_path_data, valid_arguments.get(data)))
     df = pd.read_csv(full_path_data).set_index("ID")
+    print(Fore.GREEN + f"✅ {data} data prepared!" + Style.RESET_ALL)
     return df
 
 def check_valid_assay(assay: str,
@@ -224,10 +229,22 @@ def train_save_model(assay: str,
     of the feature scaler. Moving models to production happens manually with OS.
     """
     # Check assay argument
+    check_valid_assay(assay)
+
     # Load data from hard drive
+    X_train = load_data("X_train")
+    y_train = load_data("y_train")
+
     # Call model.model_train
+    model = model_train(assay, X_train, y_train)
+
     # Save model to hard drive
-    pass
+    print(Fore.BLUE + f"Saving model..." + Style.RESET_ALL)
+    timestamp = time.strftime("%Y%m%d-%H%M%S")
+    path_model = f"{base_path_model}/model_{assay}-{timestamp}"
+    with open(path_model, "wb") as file:
+        pickle.dump(model, file)
+    print(Fore.GREEN + "✅ Model saved!" + Style.RESET_ALL)
 
 def load_model(assay: str) -> BaseEstimator:
     """
@@ -292,7 +309,7 @@ if __name__ == "__main__":
         case "run_load_transform_save_test_targets":
             load_transform_save_targets("test")
         case "run_load_transform_save_valid_targets":
-            load_transform_save_features("valid")
+            load_transform_save_targets("valid")
         case "run_show_train_features":
             print(load_data("X_train").head())
         case "run_show_test_features":
@@ -303,5 +320,7 @@ if __name__ == "__main__":
             print(load_data("y_test").head())
         case "run_show_invalid_data_input":
             print(load_data("Z-vor!").head())
+        case "run_model_train_save":
+            train_save_model(sys.argv[2])
         case _:
-            print("Unknown command.")
+            print(Fore.RED + f"❌ Unknown command. Please check your Makefile or script usage." + Style.RESET_ALL)

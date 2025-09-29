@@ -43,10 +43,9 @@ run_show_test_targets:
 run_show_invalid_data_input:
 	python toxikind/main.py run_show_invalid_data_input
 
-run_model_train:
-
-run_model_save:
-
+run_model_train_save:
+	python toxikind/main.py run_model_train_save $(assay)
+	#Example Usage: run_model_train_save assay=NR.AhR
 run_model_load:
 
 run_model_predict:

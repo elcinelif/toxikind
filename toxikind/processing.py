@@ -29,7 +29,7 @@ def fit_feature_scaler(X_train_raw: pd.DataFrame) -> Pipeline:
     feature_scaler = pipeline.fit(X_train_raw)
 
     # Return fitted feature_scaler
-    print("✅ Scaler fitted")
+    print("✅ Scaler fitted!")
     return feature_scaler
 
 def transform_features(X_raw: pd.DataFrame, feature_scaler: Pipeline) -> pd.DataFrame:
@@ -48,5 +48,5 @@ def transform_features(X_raw: pd.DataFrame, feature_scaler: Pipeline) -> pd.Data
     X = pd.DataFrame(feature_scaler.transform(X_raw), columns=X_raw.columns, index=X_raw.index)
 
     # Return transformed data
-    print("✅ Features transformed")
+    print("✅ Features transformed!")
     return X
