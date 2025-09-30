@@ -8,6 +8,7 @@ import time
 
 # OS I/O
 import os
+import glob
 import pickle
 import json
 
@@ -29,7 +30,7 @@ def fit_save_feature_scaler(path_X_train_raw: str=params.PATH_X_TRAIN_RAW,
                             path_feature_scaler: str=params.PATH_FEATURE_SCALER
                            ) -> None:
     """
-    This is a wrapper for "processing.fit_feature_scaler".
+    Wrapper for "processing.fit_feature_scaler". Includes saving on hard drive.
 
     Parameters:
     - path_X_train_raw: path to raw training feature data
@@ -214,7 +215,7 @@ def check_valid_assay(assay: str,
 def train_save_model(assay: str,
                      base_path_model: str = params.BASE_PATH_MODEL) -> None:
     """
-    This is a wrapper for "model.model_train" with saving.
+    Wrapper for "model.model_train" with saving.
     Includes assay validity check.
 
     Parameters:
@@ -241,25 +242,45 @@ def train_save_model(assay: str,
     # Save model to hard drive
     print(Fore.BLUE + f"Saving model..." + Style.RESET_ALL)
     timestamp = time.strftime("%Y%m%d-%H%M%S")
-    path_model = f"{base_path_model}/model_{assay}-{timestamp}"
+    path_model = f"{base_path_model}/model_{assay}-{timestamp}.pkl"
     with open(path_model, "wb") as file:
         pickle.dump(model, file)
     print(Fore.GREEN + "✅ Model saved!" + Style.RESET_ALL)
 
-def load_model(assay: str) -> BaseEstimator:
+def load_model(assay: str,
+               base_path_model: str = params.BASE_PATH_MODEL
+              ) -> BaseEstimator:
     """
-    Purpose: Load the model for desired assay from hard drive
+    Loads model from hard drive.
 
-    WARNING: many functions below depend on this one. Keep it above
+    Parameters:
+    - assay: desired assay
+    - base_path_model: path to load model from
+
+    Returns:
+    - A model
+
+    Note: many dependancies. Loads most recent model
     """
-    #print(Fore.BLUE + f"\nLoading model from '{path_model}'..." + Style.RESET_ALL)
+    print(Fore.BLUE + f"\nLoading model from '{base_path_model}'..." + Style.RESET_ALL)
+    # Check assay argument
+    check_valid_assay(assay)
 
-    #with open(path_model, "rb") as f:
-    #    model = pickle.load(f)
+    # Define pattern to omit timestamps
+    pattern = os.path.join(base_path_model, f"model_{assay}-*.pkl")
+    matches = glob.glob(pattern)
 
-    #print(Fore.GREEN + "✅ Model loaded successfully" + Style.RESET_ALL)
-    #return model
-    pass
+    # Return error if no file found
+    if not matches:
+        raise FileNotFoundError("No matching model file found.")
+
+    # Load most recent model
+    matches.sort(reverse=True)
+    with open(matches[0], "rb") as f:
+        model = pickle.load(f)
+
+    print(Fore.GREEN + "✅ Model loaded successfully!" + Style.RESET_ALL)
+    return model
 
 def save_model_metrics(assay: str)-> None:
     """
@@ -322,5 +343,9 @@ if __name__ == "__main__":
             print(load_data("Z-vor!").head())
         case "run_model_train_save":
             train_save_model(sys.argv[2])
+        case "run_show_model_details":
+            model = load_model(sys.argv[2])
+            print(type(model))
+            print(model.get_params)
         case _:
             print(Fore.RED + f"❌ Unknown command. Please check your Makefile or script usage." + Style.RESET_ALL)

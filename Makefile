@@ -46,7 +46,9 @@ run_show_invalid_data_input:
 run_model_train_save:
 	python toxikind/main.py run_model_train_save $(assay)
 	#Example Usage: run_model_train_save assay=NR.AhR
-run_model_load:
+
+run_show_model_details:
+	python toxikind/main.py run_show_model_details $(assay)
 
 run_model_predict:
 
