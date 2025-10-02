@@ -50,9 +50,10 @@ run_model_train_save:
 run_show_model_details:
 	python toxikind/main.py run_show_model_details $(assay)
 
-run_model_predict:
-
 run_model_evaluate:
+	python toxikind/main.py run_model_evaluate $(assay)
+
+run_model_predict:
 
 
 

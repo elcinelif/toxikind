@@ -1,16 +1,16 @@
-model.py:
-1. Move model training to .py file including assay selection (manually) and hyperparameters (environment variable)
-2. Implement proper saving and loading of trained models (path as env + selection)
-3. Implement model evaluation (output as dict)
+In general:
+1. Is this one threshold for all models even correct?
+2. Cross-evaluation vs. evaluation?
 
-params.py:
-1. Dict of assays (take names from notebook)
-2. Data and model paths
+model.py:
+1. Implement model evaluation (output as dict)
+2. Implement model prediction
 
 env:
 1. Data path
 2. Model path
 
 main.py:
-1. Implement wrappers model_load_predict, model_load_evaluate, model_train_save
-2. All I/O here (like main vs. processing) or mixed in models?
+1. Implement model evaluation (output as json)
+2. Implement model prediction
+3. Implement training, evaluation, prediction for all valid assays

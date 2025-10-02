@@ -28,6 +28,7 @@ PATH_Y_TEST_RAW = "raw_data/tox21_labels_test.csv.gz"
 PATH_Y_TEST = "data/y_test.csv"
 BASE_PATH_DATA = "data"
 BASE_PATH_MODEL = "models"
+BASE_PATH_METRICS = "metrics"
 
 ################## MODEL HYPERPARAMETERS ##################
 

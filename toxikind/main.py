@@ -282,13 +282,40 @@ def load_model(assay: str,
     print(Fore.GREEN + "✅ Model loaded successfully!" + Style.RESET_ALL)
     return model
 
-def save_model_metrics(assay: str)-> None:
+def save_model_metrics(assay: str,
+                       X: str="X_test",
+                       y: str="y_test",
+                       base_path_model: str = params.BASE_PATH_METRICS)-> None:
     """
-    Purpose: wrapper for model_evaluate with saving
-    - Load model and processed testing data and call model_evaluate
-    - Save metrics as JSON
+    Wrapper for "model.model_evaluate" with saving
+
+    Parameters:
+    - assay: desired assay
+
+    Returns:
+    - Model metrics in .json format to hard drive
+    - None to namespace
     """
-    pass
+    # Check assay argument
+    check_valid_assay(assay)
+
+    # Load data and model
+    X = load_data(X)
+    y = load_data(y)
+    model = load_model(assay)
+
+    # Evaluate and show
+    model_metrics = model_evaluate(model, assay, X, y)
+    print(model_metrics)
+
+    # Save
+    print(Fore.BLUE + f"Saving model metrics..." + Style.RESET_ALL)
+    model_metrics_json = json.dumps(model_metrics, indent=4)
+    timestamp = time.strftime("%Y%m%d-%H%M%S")
+    path_model = f"{base_path_model}/model_metrics{assay}-{timestamp}.json"
+    with open(path_model, "w") as f:
+        f.write(model_metrics_json)
+    print(Fore.GREEN + "✅ Model metrics saved!" + Style.RESET_ALL)
 
 def save_model_prediction(assay: str)-> None:
     """
@@ -347,5 +374,7 @@ if __name__ == "__main__":
             model = load_model(sys.argv[2])
             print(type(model))
             print(model.get_params)
+        case "run_model_evaluate":
+            save_model_metrics(sys.argv[2])
         case _:
             print(Fore.RED + f"❌ Unknown command. Please check your Makefile or script usage." + Style.RESET_ALL)
